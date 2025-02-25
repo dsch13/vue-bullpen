@@ -5,7 +5,8 @@
 **Vue-Bullpen** is a composable for managing complex data management and caching in Vue 3. `useData` manages returns
 a result which simplifies displaying to the user the state of data fetching operations. If data is retrieved from the 
 cache, it will be displayed to the user immediately and updated in place with the result from a network call. It can 
-leverage vue's reactivity system to update in place for filters and other user driven state.
+leverage vue's reactivity system to update in place for filters and other user driven state. It also returns a promise 
+to the initial result for cases where you need access to the data immediately.
 
 ---
 
