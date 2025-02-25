@@ -26,27 +26,18 @@ npm install vue-bullpen
 ```
 
 ## **Usage**
-Because the definiton is computed from the props it will retreive updated data if the props change.
-
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useData } from 'vue-bullpen';
 import { DataDefinitions } from 'your-definitions'
 
-interface Props {
-  someKey: string
-}
-const props = defineProps<Props>();
+const definition = DataDefinitions.Example.Get();
 
-const definition = computed(() => {
-  return DataDefinitions.Example.Get(props.someKey)
-});
-
-// Use the composable with default configuration
+// Use the composable
 const { result, refreshResult } = useData(definition);
 
-// Manual refresh example
+// Manual refresh, skipping the cache.
 const refreshData = () => {
   refreshResult({ useCacheOperations: false });
 };
@@ -58,6 +49,44 @@ const refreshData = () => {
     <p v-else>Error: {{ result.error.message }}</p>
     <p v-else-if="result.status === 'success'">Data: {{ result.data }}</p>
     <button @click="refreshData">Refresh Data</button>
+  </div>
+</template>
+```
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useData } from 'vue-bullpen';
+import { DataDefinitions } from 'your-definitions'
+
+const color = ref<string | undefined>();
+const shape = ref<string | undefined>();
+
+const filters = computed(() => {
+  return {
+    shape: shape.value,
+    color: color.value,
+  }
+})
+
+// Definition will update with its dependencies and automatically update the result
+const definition = computed(() => {
+  return DataDefinitions.Shapes.Search(filters.value)
+});
+
+// Use the composable
+const { result: shapesResult } = useData(definition);
+</script>
+
+<template>
+  <div>
+    <div>
+      <ColorSelector v-model="color" />
+      <ShapeSelector v-model="shape" />
+    </div>
+    <p v-if="shapesResult.status === 'fetching'">Loading...</p>
+    <p v-else-if="shapesResult.status === 'error'">Error: {{ result.error.message }}</p>
+    <p v-else>Data: {{ result.data }}</p>
   </div>
 </template>
 ```
