@@ -1,7 +1,5 @@
 # Vue-Bullpen
 
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](https://github.com/your-repo/vue-bullpen/actions)
-
 ### A flexible and powerful data-fetching composable for Vue 3
 
 **Vue-Bullpen** is a composable for managing complex data-fetching workflows in Vue 3. It supports advanced configurations such as caching, early returns, error handling, and reactive data fetching. Designed for flexibility, it integrates seamlessly with Vue’s reactivity system while allowing manual control over fetch behavior when needed.
